@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lekcije</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Prism.js tema (tamna) -->
+    <link href="prism.css" rel="stylesheet" />
+</head>
+<body class="code-page">
+    
+    <div class="task-container-double">
+    <h1>Koja je razlika između liste i stabla?</h1>
+    <h3>ulaz.txt: Dusan Vlahovic <br> 84 <br> 25 <br>...</h3>
+    </div>
+    
+    <div class="task-container-double">
+        
+        
+        <div class="task-container">
+            <h2>Lista</h2>
+            <pre><code class="language-c">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+
+typedef struct Fudbaler{
+    char name[50];
+    int rating;
+    int age;
+    struct Fudbaler *sledeci;
+
+}Fudbaler;
+
+void ucitajFajl(Fudbaler **lista){
+    FILE *fp = fopen("ulaz.txt", "r");
+    Fudbaler *glava = NULL;
+    Fudbaler *prethodni = NULL;
+    char linija[100];
+    char name[50];
+    int rating = 0;
+    int age = 0;
+
+    while(fgets(name, sizeof(name), fp)){
+        if(!fp){
+            printf("Neuspesno otvaranje fajla!\n");
+            return 0;
+        }
+        int len = strlen(name);
+        if( len < 1){
+            continue;
+        }
+        if(len > 0 && name[len - 1] == '\n'){
+            name[len - 1] = '\0';
+            len--;
+        }
+        if(!fgets(linija, sizeof(linija), fp)) break;
+        rating = atoi(linija);
+
+        if(!fgets(linija, sizeof(linija), fp)) break;
+        age = atoi(linija);
+
+        if(!name || rating == 0 || age == 0) continue;
+
+        Fudbaler *novi = (Fudbaler*)malloc(sizeof(Fudbaler));
+
+        if(!novi){
+            printf("Greska pri alokaciji memorije!\n");
+        }
+        strcpy(novi->name, name);
+        novi->rating = rating;
+        novi->age = age;
+        novi->sledeci = NULL;
+
+        if(!glava){
+            glava = novi;
+        }else{
+            prethodni->sledeci = novi;
+        }
+        prethodni = novi;
+    }
+    fclose(fp);
+
+    *lista = glava;
+}
+
+void ispisiListu(Fudbaler *lista){
+    if(!lista) return;
+    //ispisiListu(lista->sledeci);
+    printf("Fudbaler %s ima rejting %d, a star je %d\n",
+           lista->name, lista->rating, lista->age);
+
+    ispisiListu(lista->sledeci);
+}
+
+void obrisiListu(Fudbaler **lista){
+    if(!(&lista)) return;
+    Fudbaler *trenutni = *lista;
+    while(trenutni){
+        Fudbaler *next = trenutni->sledeci;
+        free(trenutni);
+        trenutni = next;
+    }
+    *lista = NULL;
+}
+
+void ispisiMeni(){
+    printf("\n\n");
+    printf("Unesite neku od opcija:\n");
+    printf("1. Ucitaj listu\n");
+    printf("2. Ispisi sve fudbalere iz liste\n");
+    printf("3. Ispisi fudbalere ispod starosne granice\n");
+    printf("4. Promeni rejting fudbaleru\n");
+    printf("5. Dodaj fudbalera u listu\n");
+    printf("6. Obrisi fudbalera iz liste\n");
+    printf("7. Brisanje liste i izlazak iz programa\n");
+
+}
+
+void ispisiFudbalereIspodStarosneGranice(Fudbaler *lista, int granica){
+    Fudbaler *trenutni = lista;
+    while(trenutni){
+        if(trenutni->age <= granica){
+            printf("Fudbaler %s ima rejting %d, a star je %d\n",
+           trenutni->name, trenutni->rating, trenutni->age);
+        }
+        trenutni = trenutni->sledeci;
+    }
+}
+
+void promeniRejting(Fudbaler *lista, char* imeFudbalera, int noviRejting){
+    Fudbaler *trenutni = lista;
+    while(trenutni){
+        if(strcmp(trenutni->name, imeFudbalera) == 0){
+            trenutni->rating = noviRejting;
+            break;
+        }
+
+        trenutni = trenutni->sledeci;
+    }
+}
+
+void dodajUListu(Fudbaler **lista, char *ime, int rating, int starost){
+    Fudbaler *novi = malloc(sizeof(Fudbaler));
+    if (!novi) {
+        printf("Greska pri alokaciji memorije!\n");
+        return;
+    }
+    strcpy(novi->name, ime);
+    novi->rating = rating;
+    novi->age = starost;
+    novi->sledeci = NULL;
+
+    if (*lista == NULL) {
+        *lista = novi;
+        return;
+    }
+    //else
+    Fudbaler *trenutni = *lista;
+    while(trenutni->sledeci != NULL){
+        trenutni = trenutni->sledeci;
+    }
+    trenutni->sledeci = novi;
+
+
+}
+
+void obrisiIzListe(Fudbaler **lista, char *ime){
+    Fudbaler *trenutni = *lista;
+    Fudbaler *prethodni = NULL;
+
+    // Ako je glava ta koju brišemo
+    if (strcmp(trenutni->name, ime) == 0) {
+        *lista = trenutni->sledeci; // pomeri glavu
+        free(trenutni);
+        return;
+    }
+
+    //Inace, trazi kroz listu
+    while(trenutni != NULL && strcmp(trenutni->name, ime) != 0){
+        prethodni = trenutni;
+        trenutni = trenutni->sledeci;
+    }
+
+    //Ako nije pronadjen
+    if(trenutni == NULL){
+        printf("Fudbaler sa imenom '%s' nije pronadjen.\n", ime);
+        return;
+    }
+
+    //Prespoji i oslobodi
+    prethodni->sledeci = trenutni->sledeci;
+    free(trenutni);
+
+}
+
+
+int main(){
+
+    Fudbaler* lista = NULL;
+    //ispisiMeni();
+    while(1){
+        ispisiMeni();
+        int izbor;
+        scanf("%d", &izbor);
+        if(izbor == 1){
+            ucitajFajl(&lista);
+            printf("Fajl je ucitan!\n");
+        }
+        if(izbor == 2){
+            printf("Svi fudbaleri u bazi podataka:\n");
+            ispisiListu(lista);
+        }
+        if(izbor == 3){
+            printf("Unesite starosnu granicu: ");
+            int granica;
+            scanf("%d", &granica);
+            ispisiFudbalereIspodStarosneGranice(lista, granica);
+        }
+        if(izbor == 4){
+            printf("Unesite ime fudbalera kojem bi ste zeleli da promenite rejting:\n");
+            getchar(); //pokupi '\n' iz prethodnog scanf
+            char imeFudbalera[50];
+            fgets(imeFudbalera, sizeof(imeFudbalera), stdin);
+            int len = strlen(imeFudbalera);
+            if(len > 0 && imeFudbalera[len - 1] == '\n'){
+                imeFudbalera[len - 1] = '\0';
+            }
+            printf("Unesite novi rejting za ovog fudbalera:\n");
+            int noviRejting;
+            scanf("%d", &noviRejting);
+
+            promeniRejting(lista, imeFudbalera, noviRejting);
+        }
+        if(izbor == 5){ //Dodaj fudbalera u listu
+            printf("Unesite ime novog fudbalera:\n");
+            getchar();
+            char ime[50];
+            fgets(ime, sizeof(ime), stdin);
+            int len = strlen(ime);
+            if(len > 0 && ime[len-1] == '\n'){
+                ime[len-1] = '\0';
+            }
+
+            printf("Unesite rejting novog fudbalera:\n");
+            //getchar();
+            int rejting;
+            scanf("%d", &rejting);
+            getchar();
+
+            printf("Unesite starost novog fudbalera:\n");
+            //getchar();
+            int starost;
+            scanf("%d", &starost);
+
+            dodajUListu(&lista, ime, rejting, starost);
+        }
+        if(izbor == 6){ //Obrisi fudbalera iz liste
+            printf("Unesite ime fudbalera za brisanje:\n");
+            getchar();
+            char ime[50];
+            fgets(ime, sizeof(ime), stdin);
+            int len = strlen(ime);
+            if (len > 0 && ime[len - 1] == '\n') {
+                ime[len - 1] = '\0';
+            }
+            /*
+            Ovo iznad je kljucno jer npr Abubakar\n\0 i Abubakar\0
+            nisu isti funkciji strcmp()
+            */
+
+            obrisiIzListe(&lista, ime);
+
+        }
+        if(izbor == 7){ //Brisanje liste i izlazak iz programa
+            obrisiListu(&lista);
+            printf("%p", lista);
+            return 0;
+        }
+    }
+
+
+    return 0;
+}
+
+        </code></pre>
+        </div>
+        
+        <div class="task-container">
+            <h2>Stablo</h2>
+            <pre><code class="language-c">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+
+typedef struct Fudbaler {
+    char name[50];
+    int rating;
+    int age;
+    struct Fudbaler *levo;
+    struct Fudbaler *desno;
+} Fudbaler;
+
+Fudbaler* dodajUFudbalere(Fudbaler *koren, char *ime, int rating, int age) {
+    if (koren == NULL) {
+        Fudbaler *novi = malloc(sizeof(Fudbaler));
+        strcpy(novi->name, ime);
+        novi->rating = rating;
+        novi->age = age;
+        novi->levo = novi->desno = NULL;
+        return novi;
+    }
+    if (strcmp(ime, koren->name) < 0) {
+        koren->levo = dodajUFudbalere(koren->levo, ime, rating, age);
+    } else if (strcmp(ime, koren->name) > 0) {
+        koren->desno = dodajUFudbalere(koren->desno, ime, rating, age);
+    }
+    return koren;
+}
+
+void ucitajFajl(Fudbaler **koren) {
+    FILE *fp = fopen("ulaz.txt", "r");
+    if (!fp) {
+        printf("Neuspesno otvaranje fajla!\n");
+        return;
+    }
+    char name[50], buf[100];
+    int rating, age;
+    while (fgets(name, sizeof(name), fp)) {
+        int len = strlen(name);
+        if (len > 0 && name[len - 1] == '\n') name[len - 1] = '\0';
+        if (!fgets(buf, sizeof(buf), fp)) break;
+        rating = atoi(buf);
+        if (!fgets(buf, sizeof(buf), fp)) break;
+        age = atoi(buf);
+        *koren = dodajUFudbalere(*koren, name, rating, age);
+    }
+    fclose(fp);
+}
+
+void ispisiStablo(Fudbaler *koren) {
+    if (!koren) return;
+    ispisiStablo(koren->levo);
+    printf("Fudbaler %s ima rejting %d, a star je %d\n",
+           koren->name, koren->rating, koren->age);
+    ispisiStablo(koren->desno);
+}
+
+void ispisiIspodGranice(Fudbaler *koren, int granica) {
+    if (!koren) return;
+    ispisiIspodGranice(koren->levo, granica);
+    if (koren->age <= granica) {
+        printf("Fudbaler %s ima rejting %d, a star je %d\n",
+               koren->name, koren->rating, koren->age);
+    }
+    ispisiIspodGranice(koren->desno, granica);
+}
+
+void promeniRejting(Fudbaler *koren, char *ime, int noviRejting) {
+    if (!koren) return;
+    int cmp = strcmp(ime, koren->name);
+    if (cmp == 0) {
+        koren->rating = noviRejting;
+    } else if (cmp < 0) {
+        promeniRejting(koren->levo, ime, noviRejting);
+    } else {
+        promeniRejting(koren->desno, ime, noviRejting);
+    }
+}
+
+Fudbaler* nadjiMin(Fudbaler *koren) {
+    while (koren && koren->levo) koren = koren->levo;
+    return koren;
+}
+
+Fudbaler* obrisiIzStabla(Fudbaler *koren, char *ime) {
+    if (!koren) return NULL;
+    int cmp = strcmp(ime, koren->name);
+    if (cmp < 0) {
+        koren->levo = obrisiIzStabla(koren->levo, ime);
+    } else if (cmp > 0) {
+        koren->desno = obrisiIzStabla(koren->desno, ime);
+    } else {
+        if (!koren->levo) {
+            Fudbaler *tmp = koren->desno;
+            free(koren);
+            return tmp;
+        } else if (!koren->desno) {
+            Fudbaler *tmp = koren->levo;
+            free(koren);
+            return tmp;
+        }
+        Fudbaler *tmp = nadjiMin(koren->desno);
+        strcpy(koren->name, tmp->name);
+        koren->rating = tmp->rating;
+        koren->age = tmp->age;
+        koren->desno = obrisiIzStabla(koren->desno, tmp->name);
+    }
+    return koren;
+}
+
+void obrisiStablo(Fudbaler *koren) {
+    if (!koren) return;
+    obrisiStablo(koren->levo);
+    obrisiStablo(koren->desno);
+    free(koren);
+}
+
+void ispisiMeni(){
+    printf("\n\n");
+    printf("Unesite neku od opcija:\n");
+    printf("1. Ucitaj listu\n");
+    printf("2. Ispisi sve fudbalere iz liste\n");
+    printf("3. Ispisi fudbalere ispod starosne granice\n");
+    printf("4. Promeni rejting fudbaleru\n");
+    printf("5. Dodaj fudbalera u listu\n");
+    printf("6. Obrisi fudbalera iz liste\n");
+    printf("7. Brisanje liste i izlazak iz programa\n");
+
+}
+
+int main() {
+    Fudbaler *koren = NULL;
+    while (1) {
+        ispisiMeni();
+        int izbor;
+        scanf("%d", &izbor);
+        if (izbor == 1) {
+            ucitajFajl(&koren);
+        } else if (izbor == 2) {
+            ispisiStablo(koren);
+        } else if (izbor == 3) {
+            int granica;
+            scanf("%d", &granica);
+            ispisiIspodGranice(koren, granica);
+        } else if (izbor == 4) {
+            getchar();
+            char ime[50];
+            fgets(ime, sizeof(ime), stdin);
+            int len = strlen(ime);
+            if (len > 0 && ime[len - 1] == '\n') ime[len - 1] = '\0';
+            int noviRejting;
+            scanf("%d", &noviRejting);
+            promeniRejting(koren, ime, noviRejting);
+        } else if (izbor == 5) {
+            getchar();
+            char ime[50];
+            fgets(ime, sizeof(ime), stdin);
+            int len = strlen(ime);
+            if (len > 0 && ime[len - 1] == '\n') ime[len - 1] = '\0';
+            int rejting, starost;
+            scanf("%d%d", &rejting, &starost);
+            koren = dodajUFudbalere(koren, ime, rejting, starost);
+        } else if (izbor == 6) {
+            getchar();
+            char ime[50];
+            fgets(ime, sizeof(ime), stdin);
+            int len = strlen(ime);
+            if (len > 0 && ime[len - 1] == '\n') ime[len - 1] = '\0';
+            koren = obrisiIzStabla(koren, ime);
+        } else if (izbor == 7) {
+            obrisiStablo(koren);
+            break;
+        }
+    }
+    return 0;
+}
+
+        </code></pre>
+        </div>
+    
+    
+    
+    
+    </div>
+
+    <script src="prism.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

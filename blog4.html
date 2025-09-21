@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zadaci u C jeziku</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Prism.js tema (tamna) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body class="code-page">
+
+    <!-- Zadatak 1 -->
+    <div class="task-container">
+        <h1>Pokazivači (za one koji su već upoznati sa C-om)</h1>
+        <p>Hajde da počnemo od jednog vrlo lakog primera sa pokazivačima:</p>
+
+        <button class="show-solution">Vidi primer</button>
+
+        <div class="solution hidden">
+            <button class="copy-btn">📋 Kopiraj</button>
+            <pre><code class="language-c">
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int x = 5;
+    int *p = &x;
+    int **pp = &p; // pp pokazuje na p
+    **pp = 20;     // menja x preko pp
+    
+    printf("x: %d\n", x);
+    printf("p: %d\n", *p);
+    printf("pp: %d\n", **pp);
+    
+    return 0;
+}
+
+/*
+Ispis na konzolu:
+x: 20
+p: 20
+pp: 20
+*/
+
+
+            </code></pre>
+        </div>
+
+        <p>E sad, zašto je baš ovakav ispis? Pa zato što je pp pokazivac na pokazivac na x.
+            Ali dobro, gde to piše? Pa drugom linijom smo definisali da p pokazuje na x (int *p = &x;)
+        a pritom pp pokazuje na p (int **pp = &p;). Samim tim, pp --> p --> x. Ali čekajte, nije to sve sa pokazivačima, 
+        tek smo zagrebali po površini. </p>
+
+
+    <br>
+
+</div>
+
+<div class="task-container">
+    <p>Sledeći primer je neispravan, jer samo dupli pokazivač može da pokazuje na pokazivač, odnosno mora biti deklarisan kao pokazivač na pokazivač
+    </p>
+    <button class="show-solution">Vidi primer sa samo jednim pokazivačem [NEISPRAVAN]</button>
+    <div class="solution hidden">
+        <button class="copy-btn">📋 Kopiraj</button>
+        <pre><code class="language-c">
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int x = 5;
+    int *p = &x;
+    int *pp = &p; // pp pokazuje na p
+    *pp = 20;     // menja x preko pp
+    
+    printf("x: %d\n", x);
+    printf("p: %d\n", *p);
+    printf("pp: %d\n", *pp);
+    
+    return 0;
+}
+        </code></pre>
+    </div>
+</div>
+
+
+
+    
+
+
+
+
+
+
+
+
+    <!-- Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <!-- JS za otkrivanje rešenja -->
+    <script>
+        document.querySelectorAll('.show-solution').forEach(button => {
+            button.addEventListener('click', function() {
+                const solution = this.parentElement.querySelector('.solution');
+                solution.classList.remove('hidden');
+                this.style.display = 'none';
+            });
+        });
+
+                // JS za kopiranje koda
+        document.querySelectorAll('.copy-btn').forEach(copyBtn => {
+            copyBtn.addEventListener('click', () => {
+                const code = copyBtn.parentElement.querySelector('code').innerText;
+
+                navigator.clipboard.writeText(code).then(() => {
+                    copyBtn.textContent = '✅ Kopirano!';
+                    setTimeout(() => copyBtn.textContent = '📋 Kopiraj', 2000);
+                }).catch(err => {
+                    console.error('Greška pri kopiranju:', err);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
