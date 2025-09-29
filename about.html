@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopVault</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+    
+    <section id = "header">
+        <a href="#"><img src="img/logo.png" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Početna</a></li>
+                <li><a href="shop.html">Prodavnica</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a class="active" href="about.html">Events</a></li>
+                <li><a href="nedoumice.html">Nedoumice</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="far fa-shopping-bag"></i></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
+
+    <section id="page-header" class="about-header">
+      
+        <h2>#Događaji</h2>
+       
+        <p>Šta ima novo kod nas?</p>
+      
+    </section>
+
+    <section id="blog" class="section-p1">
+
+    <div class="blog-box">
+        <div class="blog-img">
+            <img src="img/about/e5.jpg" alt="">
+        </div>
+        <div class="blog-details">
+            <h4>Rešenja nekih C zadataka</h4>
+            <p>
+                Da li mislite da ste majstor C-a? Da li mislite da možete da rešite neke zadatke koje ne može ni vestačka inteligencija (još uvek). E onda je ovo pravo mesto za vas.
+            </p>
+            <a href="blog1.html">READ MORE</a> <marquee bgcolor="#ccc" loop="-1" scrollamount="5" width="100%"> 
+                Dobrodošli u svet programerskih izazova. Ne plašite se da testirate svoje znanje i granice. Vaš put do majstorstva počinje ovde, rešavanjem zadataka koje će vas učiniti boljim programerom.
+            </marquee>
+        </div>
+    </div>
+
+    <div class="blog-box">
+        <div class="blog-img">
+            <img src="img/blog/pokazivac.jpg" alt="">
+        </div>
+        <div class="blog-details">
+            <h4>Novi Blog: Pokazivači u C jeziku</h4>
+            <p>
+                Pokazivači (pointers) u programskom jeziku C su varijable koje umesto vrednosti, čuvaju memorijsku adresu druge varijable. Oni omogućavaju direktnu manipulaciju memorijom i ključni su za mnoge napredne koncepte u C programiranju.
+            </p>
+            <a href="blog4.html">READ MORE</a> <marquee bgcolor="#ccc" loop="-1" scrollamount="5" width="100%"> 
+
+Pokazivači (pointers) u programskom jeziku C su varijable koje umesto vrednosti, čuvaju memorijsku adresu druge varijable. Oni omogućavaju direktnu manipulaciju memorijom i ključni su za mnoge napredne koncepte u C programiranju.
+
+Osnovni pojmovi
+Za razumevanje pokazivača, važno je poznavati dva glavna operatora:
+
+Operator adrese (&): Ovaj operator se koristi za dobijanje memorijske adrese varijable. Na primer, &x će vratiti adresu varijable x.
+
+Operator dereferenciranja (*): Ovaj operator se koristi za pristup vrednosti koja se nalazi na adresi koju pokazuje pokazivač. Na primer, ako p pokazuje na varijablu x, *p će vratiti vrednost varijable x.
+
+Primer korišćenja
+Evo jednostavnog primera kako deklarisati, inicijalizovati i koristiti pokazivač:
+
+C
+
+#include <stdio.h>
+
+int main() {
+    int broj = 10;
+    int *pokazivac; // Deklaracija pokazivača na ceo broj
+
+    pokazivac = &broj; // Pokazivač sada sadrži adresu varijable 'broj'
+
+    printf("Vrednost varijable 'broj': %d\n", broj);
+    printf("Adresa varijable 'broj': %p\n", &broj);
+    printf("Vrednost na koju pokazuje 'pokazivac': %d\n", *pokazivac);
+    printf("Vrednost 'pokazivac'-a (adresa): %p\n", pokazivac);
+
+    return 0;
+}
+U ovom primeru, pokazivac se deklariše kao pokazivač na tip int. Zatim mu se dodeljuje adresa varijable broj pomoću operatora &. Na kraju, *pokazivac nam omogućava pristup vrednosti 10.
+
+Zašto su pokazivači važni?
+Pokazivači su nezaobilazni u C-u iz nekoliko ključnih razloga:
+
+Dinamička alokacija memorije: Pokazivači su osnova funkcija kao što su malloc(), calloc() i realloc() koje omogućavaju programerima da alociraju memoriju tokom izvršavanja programa. Ovo je ključno za rad sa dinamičkim strukturama podataka poput povezanih listi i stabala.
+
+Prosleđivanje argumenata funkcijama: C koristi prosleđivanje po vrednosti (pass by value), što znači da se funkcijama prosleđuju kopije vrednosti argumenata. Korišćenjem pokazivača, možete proslediti adresu varijable (pass by reference), što omogućava funkciji da direktno menja originalnu varijablu.
+
+Rad sa nizovima i stringovima: U C-u, ime niza je zapravo pokazivač na prvi element tog niza. Ovo omogućava efikasno pretraživanje i manipulisanje nizovima.
+            </marquee>
+        </div>
+    </div>
+
+    <div class="blog-box">
+        <div class="blog-img">
+            <img src="img/about/e1.jpg" alt="">
+        </div>
+        <div class="blog-details">
+            <h4>Novi Blog: Frutiger Aero Future</h4>
+            <p>
+                Nestanak sveta Frutiger Aero estetike Svet Frutiger Aero estetike, nekada sveprisutan u digitalnom dizajnu, doživeo je iznenadni nestanak. Ono što je nekada bilo sinonim za moderan, tehnološki napredan izgled, danas se smatra reliktom prošlosti, nostalgijom za ranim 2000-ima.
+            </p>
+            <a href="#">READ MORE</a> <marquee bgcolor="#ccc" loop="-1" scrollamount="5" width="100%"> 
+                Frutiger Aero je bio stil grafičkog dizajna popularan od 2000. do 2010. godine. Ime je dobio po fontu Frutiger, često korišćenom u dizajnu, i reči "aero", koja aludira na transparentnost, staklene efekte i elemente inspirisane prirodom. Karakterisale su ga: Staklene površine i sjaj: Providni prozori i ikone sa refleksijama, kao da su izrađeni od stakla. Prirodni motivi: Slike neba, vode, oblaka, trave, kao i tropskog bilja. Žive boje: Preovlađivale su jarke plave i zelene nijanse, ali i blage, pastelne boje. 3D efekti: Blagi trodimenzionalni izgled ikona i menija, dajući im dubinu. Glatke, organske linije: Umesto oštrih uglova, korišćene su zaobljene forme.
+            </marquee>
+        </div>
+    </div>
+
+    <div class="blog-box">
+        <div class="blog-img">
+            <img src="img/about/e4.png" alt="">
+        </div>
+        <div class="blog-details">
+            <h4>Akcija u ShopVault-u: Sve knjige su 700!</h4>
+            <p>
+                C ili engleski? Bez C‑a nema koda, bez engleskog nema razumevanja.
+            </p>
+            <a href="#">READ MORE</a>
+            <marquee bgcolor="#ccc" loop="-1" scrollamount="5" width="100%"> 
+                Zato ne razmišljajte previše! Ne morate da birate. Kod nas su sve knjige iste, sve su 700 dinara. Uzmite obe. I C programiranje, i englesku gramatiku.
+            </marquee>
+        </div>
+    </div>
+</section>
+
+    <section id="about-app" class="section-p1">
+        <h1>Download Our <a href="#">App</a> </h1>
+        <div class="video">
+            <video autoplay muted loop src="img/about/2.mp4"></video>
+        </div>
+    </section>
+
+    <section id="feature" class="section-p1">
+    <a href="nedoumice.html" class="fe-link">
+        <div class="fe-box">
+            <img src="img/features/g1.png" alt="Besplatna Dostava">
+            <h6>Besplatna Dostava</h6>
+        </div>
+    </a>
+
+    <a href="nedoumice.html" class="fe-link">
+        <div class="fe-box">
+            <img src="img/features/g2.png" alt="Online Naručivanje">
+            <h6>Online Naručivanje</h6>
+        </div>
+    </a>
+
+    <a href="nedoumice.html" class="fe-link">
+        <div class="fe-box">
+            <img src="img/features/g3.png" alt="Uštedite">
+            <h6>Uštedite</h6>
+        </div>
+    </a>
+
+    <a href="blog.html" class="fe-link">
+        <div class="fe-box">
+            <img src="img/features/g5.png" alt="O proizvodima">
+            <h6>O proizvodima</h6>
+        </div>
+    </a>
+
+    <a href="contact.html" class="fe-link">
+        <div class="fe-box">
+            <img src="img/features/g6.png" alt="Korisnička Podrška">
+            <h6>Korisnička Podrška</h6>
+        </div>
+    </a>
+
+    <a href="about.html" class="fe-link">
+        <div class="fe-box">
+            <img src="img/features/g4.png" alt="Promocija">
+            <h6>Promocija</h6>
+        </div>
+    </a>
+
+</section>
+
+    <section id="newsletter" class="section-p1">
+        <div class="newstext">
+            <h4>Omogućite Obaveštenja</h4>
+            <p>Dobijajte e-mail obaveštenja o našoj najnovijoj prodavnici i <span>posebnim ponudama.</span></p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Vaša email adresa">
+            <button class="normal">Registruj se</button>
+        </div>
+    </section>
+    
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="img/logo.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Lokacija: </strong> Beograd</p>
+            <p><strong>Phone: </strong> +01 2222 365 /(+91) 01 2345 6789</p>
+            <p><strong>Hours: </strong> 10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+                
+               
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="onama.html">O nama</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign in</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <a href="onama.html">O nama</a>
+            <p>From App Store Or Google Play</p>
+            <div class="row">
+                <img src="img/pay/app.jpg" alt="">
+                <img src="img/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="img/pay/pay.png" alt="">
+        </div>
+
+        <div class="copyright">
+            <p>© 2025, ShopVault</p>
+        </div>
+
+  
+
+    </footer>
+
+<body>
+
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
