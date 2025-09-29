@@ -357,7 +357,7 @@ img {
     align-items: center;
     text-align: center;
     
-    background-image: url("img/banner/e6.jpg");
+    background-image: url("img/banner/e7.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -1461,7 +1461,17 @@ body.blog-post-page {
     display: none;
 }
 
-
+/*
+@media(max-width:375px){
+    #hero h1{
+        font-size: 15px;
+    }
+    #feature.section-p1{
+        width: 100%;
+    
+    }   
+}
+*/
 @media(max-width:799px){
     .section-p1{
         padding: 40px 40px; /*dodato pri kraju prvog videa*/
@@ -1525,16 +1535,13 @@ body.blog-post-page {
         justify-content: center;
     }
 
-    #feature .fe-box {
-        margin: 15px 15px;
-    }
-
     #product1 .pro-container {
         justify-content: center;
     }
 
     #product1 .pro {
-        margin: 15px;
+        width: 40%; /* Postavljamo širinu na 40% */
+        margin: 15px 0; /* Uklanjamo bočne margine da bi se koristio 'gap' */
     }
 
     #banner {
@@ -1575,6 +1582,25 @@ body.blog-post-page {
 
 
 @media(max-width: 477px){
+    #hero h4{
+        font-size: 20px;
+    }
+    #hero h2{
+        font-size: 30px;
+    }
+    #hero h1{
+        font-size: 30px;
+    }
+    .pro{
+        min-width: 170px; /*ovo ih je poravnalo u dve kolone*/
+    }
+    .search-input{
+        width: 270px;
+    }
+    #page-header.about-header h2{
+        font-size: 40px;
+    }
+    
     #header {
         padding: 10px 30px;
     }
@@ -1591,12 +1617,17 @@ body.blog-post-page {
     .section-p1 {
         padding: 20px;
     }
-    #feature .fe-box{
-        width: 155px;
-        margin: 0 0 15px 0;
-    }
     #feature {
-        justify-content: space-between;
+        justify-content: center; /* Centriramo stavke */
+        gap: 15px; /* Dodajemo razmak između stavki */
+    }
+    #feature .fe-link { /* Ciljamo direktno flex item (link) */
+        width: calc(33.333% - 10px); /* Tri kolone sa malim razmakom */
+        /* Razmak između linkova se kontroliše preko 'gap' na #feature */
+    }
+    #feature .fe-link .fe-box { /* Osiguravamo da unutrašnji box popuni link */
+        width: 100%;
+        margin: 0; /* Uklanjamo spoljne margine sa unutrašnjeg boxa */
     }
     #product1 .pro{
         width: 100%;
@@ -1717,8 +1748,3 @@ body.blog-post-page {
 
     
 }
-
-
-
-
-
