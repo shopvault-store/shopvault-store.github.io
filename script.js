@@ -45,3 +45,12 @@ searchInput.addEventListener('input', e => {
         product.classList.toggle('hidden', !isVisible);
     })
 })
+
+
+//dodali smo i ovde
+function openProduct(index) {
+    // Sačuvaj index proizvoda u localStorage
+    localStorage.setItem("selectedProduct", index);
+    // Prebaci na stranicu proizvoda
+    window.location.href = "sproduct.html";
+}

@@ -30,8 +30,8 @@
 
     <section id="prodetails" class="section-p1">
         <div class="single-pro-image">
-            <img src="img/products/f1.jpg" width="100%" id="MainImg" alt="">
-            <div class="small-img-group">
+            <img src="img/products/w17.png" width="400px" id="MainImg" alt="">
+            <!-- <div class="small-img-group">
                 
                 <div class="small-img-col">
                     <img src="img/products/f1.jpg" width="100%" class="small-img">
@@ -49,41 +49,42 @@
                     <img src="img/products/f4.jpg" width="100%" class="small-img">
                 </div>
 
-            </div>
+            </div> -->
         </div>
 
         <div class="single-pro-details">
-            <h6>Početna / T-shirt</h6>
-            <h4>Men's Fashion T shirt</h4>
-            <h2>$139.00</h2>
-            <select>
+            <h6>Početna / Proizvod</h6>
+            <h4 id="s-product-name"></h4>
+            <h2 id="s-product-cena"></h2>
+            <!-- <select>
                <option>Select Size</option> 
                <option>XL</option> 
                <option>XXL</option> 
                <option>Small</option> 
                <option>Large</option> 
             </select>
-            <input type="number" value="1">
+            <input type="number" value="1"> -->
             <button class="normal">Add To Cart</button>
-            <h4>Product Details</h4>
-            <span>The Gildan Ultra Cotton T-shirt is made from a substantial 6.0 oz.
+            <h4>Opis Proizvoda</h4>
+            <span id="s-product-details">
+                <!-- The Gildan Ultra Cotton T-shirt is made from a substantial 6.0 oz.
                  per sq. yd. fabric constructed from 100% cotton, this classic fit
                   preshrunk jersey knit provides unmatched comfort with each wear.
                    Featuring a taped neck and shoulder, and a seamless double-needle
                     collar, and available in a range of colors, it offers it all in
-                     the ultimate head-turning package.
+                     the ultimate head-turning package. -->
             </span>
 
         </div>
     </section>
 
     
-    <section id="product1" class="section-p1">
+    <!-- <section id="product1" class="section-p1">
         <h2>Featured Products</h2>
         <p>Summer Collection New Modern Designs</p>
         <div class = "pro-container">
             <div class = "pro">
-                <img src="img/products/n1.jpg" alt="">
+                <img src="img/products/w18.png" alt="">
                 <div class="des">
                     <span>adidas</span>
                     <h5>Cartoon Astronaut T-shirts</h5>
@@ -100,7 +101,7 @@
             </div>
 
             <div class = "pro">
-                <img src="img/products/n2.jpg" alt="">
+                <img src="img/products/w19.jpg" alt="">
                 <div class="des">
                     <span>adidas</span>
                     <h5>Cartoon Astronaut T-shirts</h5>
@@ -117,7 +118,7 @@
             </div>
 
             <div class = "pro">
-                <img src="img/products/n3.jpg" alt="">
+                <img src="img/products/w10.jpg" alt="">
                 <div class="des">
                     <span>adidas</span>
                     <h5>Cartoon Astronaut T-shirts</h5>
@@ -134,7 +135,7 @@
             </div>
 
             <div class = "pro">
-                <img src="img/products/n4.jpg" alt="">
+                <img src="img/products/w11.png" alt="">
                 <div class="des">
                     <span>adidas</span>
                     <h5>Cartoon Astronaut T-shirts</h5>
@@ -152,7 +153,7 @@
 
             
         </div>
-    </section>
+    </section> -->
 
     <section id="newsletter" class="section-p1">
         <div class="newstext">
@@ -225,6 +226,191 @@
     </footer>
 
     <script>
+        const produkti = [
+            {//0
+        name: "'Hmm, koji je smisao života', by Shopvault",
+        slika: "img/products/w17.png",
+        cena: "700 RSD",
+        details: "Ova knjiga je namenjena za osobe mlađeg uzrasta koje nisu sigurne zašto uopšte postoje na ovoj planeti i koji je smisao njihovog života. Da li će dvoje mladih naći neki smisao u svom postojanju, ili će se pak upustiti u vode ostalih NPC-jeva i prepisati domaći od ostalih..."
+    },
+    {//1
+        name: "Minion figura",
+        slika: "img/products/w18.png",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//2
+        name: "Šrek figura",
+        slika: "img/products/w19.jpg",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//3
+        name: "Pinokio figura",
+        slika: "img/products/w20.jpg",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//4
+        name: "Veštica figura",
+        slika: "img/products/w21.jpg",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//5
+        name: "Gingerbread figura",
+        slika: "img/products/w22.png",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//6
+        name: "Rumpelstiltskin figura",
+        slika: "img/products/w23.jpg",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//7
+        name: "Rumpelstiltskin figura",
+        slika: "img/products/w24.png",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//8
+        name: "Pingvin Vojnik figura",
+        slika: "img/products/w25.png",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//9
+        name: "Pingvin Riko figura",
+        slika: "img/products/w26.png",
+        cena: "700 RSD",
+        details: "McDonalds HappyMeal Toy"
+    },
+    {//10
+        name: "Osnovi programiranja",
+        slika: "img/products/w1.jpg",
+        cena: "700 RSD",
+        details: "Autori: Milan Čabarkapa"
+    },
+    {
+        name: "Uvod u programiranje",
+        slika: "img/products/w2.jpg",
+        cena: "700 RSD",
+        details: "Autori: dr Bojana Dimić Surla, dr Dragan Urošević"
+    },
+    {
+        name: "Programski jezik C rešenja zadataka",
+        slika: "img/products/w3.jpg",
+        cena: "700 RSD",
+        details: "Autori: Clovis L. Tondo, Scott E. Gimpel"
+    },
+    {
+        name: "Java bez oklevanja",
+        slika: "img/products/w4.jpg",
+        cena: "700 RSD",
+        details: "Autori: Kathy Sierra, Bert Bates. Trisha Gee"
+    },
+    {
+        name: "Organizacija i arhitektura računara",
+        slika: "img/products/w5.jpg",
+        cena: "700 RSD",
+        details: "Autor: William Stallings"
+    },
+    {
+        name: "Zbirka zadataka iz osnova računarske tehnike",
+        slika: "img/products/w6.png",
+        cena: "700 RSD",
+        details: "Autori: Bogdan Mirković, Lazar Karbunar, Petar Prvulović"
+    },
+    {
+        name: "Microsoft Excel 2019 Korak po korak",
+        slika: "img/products/w7.jpg",
+        cena: "700 RSD",
+        details: "Autor: Curtis Frue"
+    },
+    {
+        name: "Zbirka zadataka za pripremu prijemnog ispita iz matematike na Računarskom fakultetu",
+        slika: "img/products/w8.jpg",
+        cena: "700 RSD",
+        details: "Autor: Irena M. Jovanović"
+    },
+    {
+        name: "Zbirka zadataka iz linearne algebre i analitičke geometrije",
+        slika: "img/products/w9.jpg",
+        cena: "700 RSD",
+        details: "Autori: Silvija Subotić, Marija Jerotijević, Milanka Gardašević-Filipović, Jelena Jovanović"
+    },
+    {
+        name: "Diskretna matematika sa kombinatorikom Prevod drugog izdanja Prva knjiga",
+        slika: "img/products/w10.jpg",
+        cena: "700 RSD",
+        details: "Autor: James A. Anderson"
+    },
+    {
+        name: "Diskretna matematika sa kombinatorikom Prevod drugog izdanja Druga knjiga",
+        slika: "img/products/w11.png",
+        cena: "700 RSD",
+        details: "Autor: James A. Anderson"
+    },
+    {
+        name: "Matematička analiza zbirka kolokvijumskih zadataka",
+        slika: "img/products/w13.jpg",
+        cena: "700 RSD",
+        details: "Autor: Irena M. Jovanović"
+    },
+    {
+        name: "Udžbenik Engleskog Jezika/ Računari i njihova primena / Computers and how we use them",
+        slika: "img/products/w14.jpg",
+        cena: "700 RSD",
+        details: "Autor: Vera Vrbica-Matejić"
+    },
+    {
+        name: "Gramatika engleskog jezika za studente i srednjoškolce sa vežbanjima i rešenjima",
+        slika: "img/products/w15.jpg",
+        cena: "700 RSD",
+        details: "Autor: Vera Vrbica-Matejić"
+    },
+    {
+        name: "Usmeno i pismeno izražavanje",
+        slika: "img/products/w16.jpg",
+        cena: "700 RSD",
+        details: "Autor: Vuk Milatović"
+    }
+        ]
+
+        function openProduct(index) {
+            // Sačuvaj index proizvoda u localStorage
+            localStorage.setItem("selectedProduct", index);
+            // Prebaci na stranicu proizvoda
+            window.location.href = "sproduct.html";
+        }
+
+        // Kada se stranica učita
+        window.addEventListener("DOMContentLoaded", () => {
+            // Uzimamo index iz localStorage
+            const index = localStorage.getItem("selectedProduct");
+            if (index !== null) {
+                const product = produkti[index];
+
+                // Popuni cenu
+                document.getElementById("s-product-cena").textContent = product.cena;
+
+                // Popuni detalje
+                document.querySelector(".single-pro-details span").textContent = product.details;
+
+                document.getElementById("s-product-name").textContent = product.name;
+
+                // Ako želiš i sliku da menjaš:
+                const img = document.querySelector(".single-pro-image img");
+                if (img) {
+                    img.src = product.slika;
+                }
+            }
+        });
+    </script>
+
+    <!-- <script>
         var MainImg = document.getElementById("MainImg");
         var smallimg = document.getElementsByClassName("small-img");
 
@@ -250,7 +436,7 @@
             */
 
 
-    </script>
+    </script> -->
 
 <body>
 
