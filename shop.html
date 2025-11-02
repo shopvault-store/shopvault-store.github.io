@@ -914,7 +914,24 @@
 
 <body>
 
+    <script>
 
+        //Search bar funkcija
+
+        const searchInput = document.querySelector('.search-input');
+        // Selektujemo sve proizvode jednom, van listener-a, radi bolje performanse.
+        const products = document.querySelectorAll('.pro');
+
+        searchInput.addEventListener('input', e => {
+        const value = e.target.value.toLowerCase();
+        products.forEach(product => {
+        const productText = product.querySelector('.des').textContent.toLowerCase();
+        const isVisible = productText.includes(value);
+        // Ispravka: koristimo klasu 'hidden' koja je definisana u CSS-u.
+        product.classList.toggle('hidden', !isVisible);
+    })
+})
+    </script>
 
 
     <script src="script.js"></script>
