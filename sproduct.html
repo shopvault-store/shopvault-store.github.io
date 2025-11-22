@@ -412,39 +412,7 @@
 
 
 
-        //Odavde sledi funkcija za korpu
-
-         const cartIcon = document.querySelectorAll(".cart");
-
-        cartIcon.forEach(icon => {
-            icon.addEventListener("click", (e) => {
-                e.preventDefault(); // sprečava odlazak na cart.html
-                e.stopPropagation(); // sprečava propagaciju događaja
-
-                // Dobavi informacije o proizvodu
-                const productName = document.getElementById("s-product-name").textContent;
-                const productPrice = document.getElementById("s-product-cena").textContent;
-                const productImg = document.getElementById("MainImg").src;
-                console.log("productName: " + productName);
-                 console.log("productPrice: " + productPrice);
-                  console.log("productImg: " + productImg);
-
-                // Dodaj proizvod u localStorage
-                let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                cart.push({ name: productName, price: productPrice, img: productImg });
-                localStorage.setItem("cart", JSON.stringify(cart));
-
-                // Prikaži poruku
-                const msg = document.getElementById("cart-message");
-                msg.classList.remove("hidden");
-                msg.classList.add("show");
-
-                setTimeout(() => {
-                    msg.classList.remove("show");
-                    msg.classList.add("hidden");
-                }, 5000);
-            });
-        });
+        
     </script>
 
     <!-- <script>

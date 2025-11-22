@@ -62,28 +62,28 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="#"><i class="far fa-times-circle"></i></a></td>
+                    <!-- <td><a href="#"><i class="far fa-times-circle"></i></a></td>
                     <td><img src="img/products/w1.jpg" alt=""></td>
                     <td>Cartoon Astronaut T-Shirts</td>
                     <td>$118.19</td>
                     <td><input type="number" value="1"></td>
-                    <td>$118.19</td>
+                    <td>$118.19</td> -->
                 </tr>
                 <tr>
-                    <td><a href="#"><i class="far fa-times-circle"></i></a></td>
+                    <!-- <td><a href="#"><i class="far fa-times-circle"></i></a></td>
                     <td><img src="img/products/w2.jpg" alt=""></td>
                     <td>Cartoon Astronaut T-Shirts</td>
                     <td>$118.19</td>
                     <td><input type="number" value="1"></td>
-                    <td>$118.19</td>
+                    <td>$118.19</td> -->
                 </tr>
                 <tr>
-                    <td><a href="#"><i class="far fa-times-circle"></i></a></td>
+                    <!-- <td><a href="#"><i class="far fa-times-circle"></i></a></td>
                     <td><img src="img/products/w3.jpg" alt=""></td>
                     <td>Cartoon Astronaut T-Shirts</td>
                     <td>$118.19</td>
                     <td><input type="number" value="1"></td>
-                    <td>$118.19</td>
+                    <td>$118.19</td> -->
                 </tr>
             </tbody>
         </table>
@@ -182,68 +182,35 @@
 <body>
 
     <script>
-        //Krucijalna linija koda pred dodavanje slike sa praznom korpom
-        const cartIsEmpty = false;
-
-        const cartContent = document.getElementById("cart");
-        const emptyCart = document.getElementById("empty-cart-div")
-
-        if (cartIsEmpty) {
-            cartContent.style.display = "none";      // sakrij proizvode
-            emptyCart.style.display = "block";    // prikaži poruku
-        } else {
-            cartContent.style.display = "block";     // prikaži proizvode
-            emptyCart.style.display = "none";     // sakrij poruku
-        }
 
         // Dobavi proizvode iz localStorage
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        // Inicijalizuje tableBody const na osnovu diva <tbody>
+        // Referenca na elemente
+        const cartContent = document.getElementById("cart");
+        const emptyCart = document.getElementById("empty-cart-div");
         const tableBody = document.querySelector("#cart table tbody");
-        tableBody.innerHTML = ""; // Očisti tabelu
 
-        cart.forEach(product => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td><a href="#"><i class="far fa-times-circle"></i></a></td>
-                <td><img src="${product.img}" alt=""></td>
-                <td>${product.name}</td>
-                <td>${product.price}</td>
-                <td><input type="number" value="1"></td>
-                <td>${product.price}</td>
-            `;
-            tableBody.appendChild(row);
-            console.log("product.name: " + product.name);
-            console.log("product.img: " + product.img);
-        });
-
-        // Dodaj event listener za brisanje proizvoda
-        tableBody.addEventListener("click", (e) => {
-            if (e.target.classList.contains("remove-from-cart") || e.target.parentNode.classList.contains("remove-from-cart")) {
-                const indexToRemove = parseInt(e.target.dataset.index || e.target.parentNode.dataset.index);
-
-                // Ukloni iz localStorage
-                cart.splice(indexToRemove, 1);
-                localStorage.setItem("cart", JSON.stringify(cart));
-
-                // Ponovo popuni tabelu
-                populateCartTable();
+        // Dinamički prikaz prazne korpe
+        function updateCartView() {
+            if (cart.length === 0) {
+                cartContent.style.display = "none";
+                emptyCart.style.display = "block";
+            } else {
+                cartContent.style.display = "block";
+                emptyCart.style.display = "none";
             }
-        });
+        }
 
+        // Popuni tabelu
         function populateCartTable() {
-            // Dobavi proizvode iz localStorage
-            cart = JSON.parse(localStorage.getItem("cart")) || [];
+            tableBody.innerHTML = "";
 
-            
-            tableBody.innerHTML = ""; // Očisti tabelu
-
-            // Popuni tabelu sa proizvodima
-            cart.forEach((product, index) => { // Dodali smo index
+            cart.forEach((product, index) => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td><a href="#" class="remove-from-cart" data-index="${index}"><i class="far fa-times-circle"></i></a></td>
+                    <td><a href="#" class="remove-from-cart" data-index="${index}">
+                        <i class="far fa-times-circle"></i></a></td>
                     <td><img src="${product.img}" alt=""></td>
                     <td>${product.name}</td>
                     <td>${product.price}</td>
@@ -252,45 +219,25 @@
                 `;
                 tableBody.appendChild(row);
             });
-
         }
 
-
-         populateCartTable();
-
-        // Dodaj event listener za brisanje proizvoda
+        // Event za brisanje
         tableBody.addEventListener("click", (e) => {
-            if (e.target.classList.contains("remove-from-cart") || e.target.parentNode.classList.contains("remove-from-cart")) {
-                const indexToRemove = parseInt(e.target.dataset.index || e.target.parentNode.dataset.index);
-
-                // Ukloni iz localStorage
+            const removeBtn = e.target.closest(".remove-from-cart");
+            if (removeBtn) {
+                const indexToRemove = parseInt(removeBtn.dataset.index);
                 cart.splice(indexToRemove, 1);
                 localStorage.setItem("cart", JSON.stringify(cart));
-
-                // Ponovo popuni tabelu
+                cart = JSON.parse(localStorage.getItem("cart")) || [];
                 populateCartTable();
+                updateCartView();
             }
         });
 
+        // Prvo proveri stanje korpe, pa popuni tabelu
+        updateCartView();
+        populateCartTable();
 
-
-
-
-        //localStorage.removeItem("cart");
-
-        // //Od ovog trenutno zavisi stanje korpe
-        // const cartIsEmpty = false;
-
-        // const cartContent = document.getElementById("cart-content");
-        // const emptyCart = document.getElementById("empty-cart-div")
-
-        // if (cartIsEmpty) {
-        //     cartContent.style.display = "none";      // sakrij proizvode
-        //     emptyCart.style.display = "block";    // prikaži poruku
-        // } else {
-        //     cartContent.style.display = "block";     // prikaži proizvode
-        //     emptyCart.style.display = "none";     // sakrij poruku
-        // }
     </script>
 
 
