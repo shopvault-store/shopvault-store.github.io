@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
     <link rel="stylesheet" href="style.css">
 </head>
+
+    <!-- Poruka -->
+    <div id="cart-message" class="hidden">Artikal je dodat u korpu!</div>
     
     <section id = "header">
         <a href="#"><img src="img/logo.png" class="logo"></a>
@@ -64,7 +67,7 @@
                <option>Large</option> 
             </select>
             <input type="number" value="1"> -->
-            <button class="normal">Add To Cart</button>
+            <button class="normal" id="addToCartBtn">Add To Cart</button>
             <h4>Opis Proizvoda</h4>
             <span id="s-product-details">
                 <!-- The Gildan Ultra Cotton T-shirt is made from a substantial 6.0 oz.
@@ -410,7 +413,67 @@
             }
         });
 
+        // NOVI KOD ZA DODAVANJE U KORPU SA OVE STRANICE
+        // Uzmi dugme
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        const selectedIndex = localStorage.getItem("selectedProduct"); // Trenutni ID/index
 
+        if (addToCartBtn && selectedIndex !== null) {
+            addToCartBtn.addEventListener("click", () => {
+                // Dohvati detalje proizvoda preko indeksa
+                const productToAdd = produkti[selectedIndex];
+
+                // Kreiranje objekta za korpu
+                const newProduct = {
+                    id: parseInt(selectedIndex), // Koristimo redni broj (indeks) kao jedinstveni ID!
+                    name: productToAdd.name,
+                    price: productToAdd.cena, // Cena je već u formatu "700 RSD"
+                    img: productToAdd.slika,
+                };
+
+                // --- Logika Spajanja (Quantity Merge) ---
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                
+                // Koristimo ID (redni broj) za proveru
+                const existingProductIndex = cart.findIndex(item => item.id === newProduct.id);
+
+                if (existingProductIndex !== -1) {
+                    // A) Proizvod postoji: Povećaj količinu
+                    
+                    // Provera da li quantity postoji i inicijalizacija na 1 ako ne
+                    if (cart[existingProductIndex].quantity) {
+                        cart[existingProductIndex].quantity += 1;
+                    } else {
+                        cart[existingProductIndex].quantity = 2; 
+                    }
+
+                } else {
+                    // B) Proizvod ne postoji: Dodaj ga kao novi artikal
+                    
+                    newProduct.quantity = 1; // Postavi početnu količinu
+                    cart.push(newProduct);
+                }
+                
+                // Sačuvaj novo stanje korpe
+                localStorage.setItem("cart", JSON.stringify(cart));
+                
+                // Opcionalno: Vizuelna povratna informacija ili preusmeravanje
+                //alert(`Proizvod "${newProduct.name}" dodat u korpu! Trenutna količina: ${cart[existingProductIndex]?.quantity || 1}`);
+                // Ako želite da ga odmah prebaci na korpu: 
+                // window.location.href = "cart.html";
+
+                const msg = document.getElementById("cart-message");
+                if (msg) {
+                    msg.classList.remove("hidden");
+                    msg.classList.add("show");
+                    setTimeout(() => {
+                        msg.classList.remove("show");
+                        msg.classList.add("hidden");
+                    }, 3000);
+                }
+
+            });
+        }
 
         
     </script>

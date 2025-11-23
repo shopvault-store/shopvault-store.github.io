@@ -102,15 +102,15 @@
                 <table>
                     <tr>
                         <td>Cart Subtotal</td>
-                        <td>$ 335</td>
+                        <td>0 RSD</td>
                     </tr>
                     <tr>
                         <td>Shipping</td>
-                        <td>Free</td>
+                        <td>0 RSD</td>
                     </tr>
                     <tr>
                         <td><strong>Total</strong></td>
-                        <td><strong>$ 335</strong></td>
+                        <td><strong>0 RSD</strong></td>
                     </tr>
                 </table>
                 <button class="normal">Proceed to checkout</button>
@@ -182,63 +182,119 @@
 <body>
 
     <script>
+    // 1. Učitavanje
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartContent = document.getElementById("cart");
+    const emptyCart = document.getElementById("empty-cart-div");
+    const tableBody = document.querySelector("#cart table tbody");
 
-        // Dobavi proizvode iz localStorage
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    // 2. Prikaz (Prazno/Puno)
+    function updateCartView() {
+        if (cart.length === 0) {
+            cartContent.style.display = "none";
+            if(emptyCart) emptyCart.style.display = "block";
+            const cartAdd = document.getElementById("cart-add");
+            if(cartAdd) cartAdd.style.display = "none";
+        } else {
+            cartContent.style.display = "block";
+            if(emptyCart) emptyCart.style.display = "none";
+            const cartAdd = document.getElementById("cart-add");
+            if(cartAdd) cartAdd.style.display = "flex";
+        }
+    }
 
-        // Referenca na elemente
-        const cartContent = document.getElementById("cart");
-        const emptyCart = document.getElementById("empty-cart-div");
-        const tableBody = document.querySelector("#cart table tbody");
+    // 3. Crtanje Tabele
+    function populateCartTable() {
+        if(!tableBody) return;
+        tableBody.innerHTML = "";
+        
+        cart.forEach((product, index) => {
+            // Čišćenje cene (700 RSD -> 700)
+            let priceNum = parseInt(product.price.toString().replace(/\D/g, '')); 
+            let qty = parseInt(product.quantity) || 1;
+            let subtotal = priceNum * qty;
 
-        // Dinamički prikaz prazne korpe
-        function updateCartView() {
-            if (cart.length === 0) {
-                cartContent.style.display = "none";
-                emptyCart.style.display = "block";
-            } else {
-                cartContent.style.display = "block";
-                emptyCart.style.display = "none";
-            }
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><a href="#" class="remove-from-cart" data-index="${index}"><i class="far fa-times-circle"></i></a></td>
+                <td><img src="${product.img}" alt=""></td>
+                <td>${product.name}</td>
+                <td>${priceNum} RSD</td>
+                <td><input type="number" value="${qty}" min="1" class="cart-quantity-input" data-index="${index}"></td>
+                <td>${subtotal} RSD</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // 4. Računanje Totala (SA POPRAVKOM ZA BOLD I SHIPPING)
+    function updateCartTotals() {
+        let subtotal = 0;
+        let totalItems = 0;
+        
+        cart.forEach(product => {
+            let priceNum = parseInt(product.price.toString().replace(/\D/g, ''));
+            let qty = parseInt(product.quantity) || 1;
+            subtotal += priceNum * qty;
+            totalItems += qty;
+        });
+
+        // Shipping logika: (Ukupno komada / 2) * 300
+        let shipping = 0;
+        if (totalItems > 0) {
+            shipping = 300 * Math.ceil(totalItems / 2);
         }
 
-        // Popuni tabelu
-        function populateCartTable() {
-            tableBody.innerHTML = "";
+        let total = subtotal + shipping;
 
-            cart.forEach((product, index) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td><a href="#" class="remove-from-cart" data-index="${index}">
-                        <i class="far fa-times-circle"></i></a></td>
-                    <td><img src="${product.img}" alt=""></td>
-                    <td>${product.name}</td>
-                    <td>${product.price}</td>
-                    <td><input type="number" value="1"></td>
-                    <td>${product.price}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
+        // Selektori
+        const subtotalEl = document.querySelector("#subtotal table tr:nth-child(1) td:nth-child(2)");
+        const shippingEl = document.querySelector("#subtotal table tr:nth-child(2) td:nth-child(2)");
+        const totalEl = document.querySelector("#subtotal table tr:nth-child(3) td:nth-child(2)");
 
-        // Event za brisanje
+        if(subtotalEl) subtotalEl.innerText = subtotal + " RSD";
+        if(shippingEl) shippingEl.innerText = shipping + " RSD";
+        
+        // OVDE JE BILA GREŠKA - SADA KORISTIMO innerHTML
+        if(totalEl) totalEl.innerHTML = "<strong>" + total + " RSD</strong>";
+    }
+
+    // 5. Event Listeneri (Brisanje i Promena)
+    if(tableBody) {
         tableBody.addEventListener("click", (e) => {
             const removeBtn = e.target.closest(".remove-from-cart");
             if (removeBtn) {
+                e.preventDefault();
                 const indexToRemove = parseInt(removeBtn.dataset.index);
                 cart.splice(indexToRemove, 1);
                 localStorage.setItem("cart", JSON.stringify(cart));
-                cart = JSON.parse(localStorage.getItem("cart")) || [];
-                populateCartTable();
-                updateCartView();
+                refreshAll();
             }
         });
 
-        // Prvo proveri stanje korpe, pa popuni tabelu
+        tableBody.addEventListener("change", (e) => {
+            if (e.target.classList.contains("cart-quantity-input")) {
+                const index = parseInt(e.target.dataset.index);
+                let newQty = parseInt(e.target.value);
+                if (newQty < 1 || isNaN(newQty)) newQty = 1;
+                
+                cart[index].quantity = newQty;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                refreshAll();
+            }
+        });
+    }
+
+    function refreshAll() {
+        cart = JSON.parse(localStorage.getItem("cart")) || [];
         updateCartView();
         populateCartTable();
+        updateCartTotals();
+    }
 
-    </script>
+    // Start
+    refreshAll();
+</script>
 
 
 
